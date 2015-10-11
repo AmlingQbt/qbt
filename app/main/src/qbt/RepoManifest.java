@@ -1,11 +1,19 @@
 package qbt;
 
 import com.google.common.collect.ImmutableMap;
-import java.util.Map;
+import java.util.Collection;
+import test.Inky;
+import test.Pinky;
+import test.Blinky;
+import test.Sue;
+
+// Inky
+/* Blinky */
 
 public final class RepoManifest {
     public final VcsVersionDigest version;
     public final Map<String, PackageManifest> packages;
+    private Pinky p;
 
     private RepoManifest(VcsVersionDigest version, ImmutableMap<String, PackageManifest> packages) {
         this.version = version;
