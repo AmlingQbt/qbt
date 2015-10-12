@@ -5,7 +5,6 @@ qbt.mains.DiffManifests
 qbt.mains.GetOverridePlumbing
 qbt.mains.GetOverridePorcelain
 qbt.mains.MergeManifests
-qbt.mains.PushPins
 qbt.mains.ResolveManifestCumulativeVersions
 qbt.mains.RunArtifact
 qbt.mains.RunOverridesPlumbing

@@ -100,14 +100,14 @@ public final class UpdateManifestPlumbing extends QbtCommand<UpdateManifestPlumb
                 }
             }
             if(!newVersion.equals(version)) {
-                RemoteRepoAccessor remoteRepoAccessor = config.repoConfig.requireRemoteRepo(repo, version);
-                remoteRepoAccessor.remote.findCommit(localRepoAccessor.dir, ImmutableList.of(version));
+                RemoteRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
+                pinnedAccessor.remote.findCommit(localRepoAccessor.dir, ImmutableList.of(version));
                 if(!options.get(Options.allowNonFf) && !repository.isAncestorOf(version, newVersion)) {
                     LOGGER.error("Updating " + repo + " from " + version.getRawDigest() + " to " + newVersion.getRawDigest() + " is not fast-forward!");
                     fail = true;
                     continue;
                 }
-                remoteRepoAccessor.remote.addPin(localRepoAccessor.dir, newVersion);
+                pinnedAccessor.remote.addPin(localRepoAccessor.dir, newVersion);
                 repoManifest = repoManifest.builder().withVersion(newVersion).build();
                 newManifest = newManifest.with(repo, repoManifest);
                 LOGGER.info(String.format("Updated repo %s from %s to %s...", repo, version.getRawDigest(), newVersion.getRawDigest()));

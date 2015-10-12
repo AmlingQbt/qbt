@@ -94,8 +94,8 @@ public final class UpdateOverridesPlumbing extends QbtCommand<UpdateOverridesPlu
                 }
             }
             if(!repository.commitExists(version)) {
-                RemoteRepoAccessor remoteRepoAccessor = config.repoConfig.requireRemoteRepo(repo, version);
-                remoteRepoAccessor.remote.findCommit(dir, ImmutableList.of(version));
+                RemoteRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
+                pinnedAccessor.remote.findCommit(dir, ImmutableList.of(version));
             }
             repository.checkout(version);
             LOGGER.info("Updated " + repo + " from " + oldVersion.getRawDigest() + " to " + version.getRawDigest());

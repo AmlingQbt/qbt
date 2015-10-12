@@ -273,13 +273,13 @@ public final class MergeManifests extends QbtCommand<MergeManifests.Options> {
     private static final Merger<PackageTip, VcsVersionDigest> versionMerger = new Merger<PackageTip, VcsVersionDigest>() {
         @Override
         protected Triple<VcsVersionDigest, VcsVersionDigest, VcsVersionDigest> mergeConflict(Context context, String label, PackageTip repo, VcsVersionDigest lhs, VcsVersionDigest mhs, VcsVersionDigest rhs) {
-            RemoteRepoAccessor lhsResult = context.config.repoConfig.requireRemoteRepo(repo, lhs);
+            RemoteRepoAccessor lhsResult = context.config.localPinsRepo.requirePin(repo, lhs);
             CachedRemote lhsRemote = lhsResult.remote;
 
-            RemoteRepoAccessor mhsResult = context.config.repoConfig.requireRemoteRepo(repo, mhs);
+            RemoteRepoAccessor mhsResult = context.config.localPinsRepo.requirePin(repo, mhs);
             CachedRemote mhsRemote = mhsResult.remote;
 
-            RemoteRepoAccessor rhsResult = context.config.repoConfig.requireRemoteRepo(repo, rhs);
+            RemoteRepoAccessor rhsResult = context.config.localPinsRepo.requirePin(repo, rhs);
             CachedRemote rhsRemote = rhsResult.remote;
 
             if(!lhsRemote.matchedLocal(mhsRemote) || !rhsRemote.matchedLocal(mhsRemote)) {

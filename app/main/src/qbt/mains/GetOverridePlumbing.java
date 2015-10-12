@@ -66,12 +66,12 @@ public final class GetOverridePlumbing extends QbtCommand<GetOverridePlumbing.Op
                 throw new IllegalArgumentException("No such repo [tip] " + repo);
             }
             VcsVersionDigest version = repoManifest.version;
-            RemoteRepoAccessor remoteRepoAccessor = config.repoConfig.requireRemoteRepo(repo, version);
+            RemoteRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
             LocalRepoAccessor newLocal = config.localRepoFinder.createLocalRepo(repo);
             if(newLocal == null) {
                 throw new IllegalArgumentException("Requested override of " + repo + " which has no associated local directory");
             }
-            CachedRemote remote = remoteRepoAccessor.remote;
+            CachedRemote remote = pinnedAccessor.remote;
             LocalVcs localVcs = remote.getLocalVcs();
             if(!localVcs.equals(newLocal.vcs)) {
                 throw new IllegalStateException("Mismatch of local VCS between remote " + remote + " and local " + newLocal.vcs);

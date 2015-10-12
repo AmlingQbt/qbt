@@ -39,7 +39,7 @@ public final class QbtConfig {
         if(local != null) {
             return local;
         }
-        CommonRepoAccessor localPin = localPinsRepo.findPinnedRepo(repo, version);
+        RemoteRepoAccessor localPin = localPinsRepo.findPin(repo, version);
         if(localPin != null) {
             return localPin;
         }

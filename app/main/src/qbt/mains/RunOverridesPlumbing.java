@@ -108,8 +108,8 @@ public final class RunOverridesPlumbing extends QbtCommand<RunOverridesPlumbing.
                         String envName = "REPO_VERSION" + (name == null ? "" : ("_" + name));
                         if(version != null) {
                             if(!localRepoAccessor.vcs.getRepository(localRepoAccessor.dir).commitExists(version)) {
-                                RemoteRepoAccessor remoteRepoAccessor = config.repoConfig.requireRemoteRepo(repo, version);
-                                remoteRepoAccessor.remote.findCommit(localRepoAccessor.dir, ImmutableList.of(version));
+                                RemoteRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
+                                pinnedAccessor.remote.findCommit(localRepoAccessor.dir, ImmutableList.of(version));
                             }
                         }
                         p = p.putEnv(envName, version == null ? "" : version.getRawDigest().toString());
