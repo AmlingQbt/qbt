@@ -1,6 +1,5 @@
 package qbt.mains;
 
-import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.Collection;
 import misc1.commons.options.OptionsResults;
@@ -20,7 +19,6 @@ import qbt.options.ManifestOptionsDelegate;
 import qbt.options.RepoActionOptionsDelegate;
 import qbt.repo.LocalRepoAccessor;
 import qbt.repo.PinnedRepoAccessor;
-import qbt.vcs.CachedRemote;
 import qbt.vcs.LocalVcs;
 
 public final class GetOverridePlumbing extends QbtCommand<GetOverridePlumbing.Options> {
@@ -71,18 +69,15 @@ public final class GetOverridePlumbing extends QbtCommand<GetOverridePlumbing.Op
             if(newLocal == null) {
                 throw new IllegalArgumentException("Requested override of " + repo + " which has no associated local directory");
             }
-            CachedRemote remote = pinnedAccessor.remote;
-            LocalVcs localVcs = remote.getLocalVcs();
+            LocalVcs localVcs = pinnedAccessor.getLocalVcs();
             if(!localVcs.equals(newLocal.vcs)) {
-                throw new IllegalStateException("Mismatch of local VCS between remote " + remote + " and local " + newLocal.vcs);
+                throw new IllegalStateException("Mismatch of local VCS between pins " + localVcs + " and local " + newLocal.vcs);
             }
 
-            remote.addAsRemote(newLocal.dir, "origin");
-            remote.getRawRemoteVcs().fetchRemote(newLocal.dir, "origin");
-            remote.findCommit(newLocal.dir, ImmutableList.of(version));
+            pinnedAccessor.findCommit(newLocal.dir);
             localVcs.getRepository(newLocal.dir).checkout(version);
 
-            LOGGER.info("Overrode " + repo + " from " + remote.getRemoteString() + " to " + newLocal.dir + " at " + version.getRawDigest() + ".");
+            LOGGER.info("Overrode " + repo + " to " + newLocal.dir + " at " + version.getRawDigest() + ".");
         }
         return 0;
     }
