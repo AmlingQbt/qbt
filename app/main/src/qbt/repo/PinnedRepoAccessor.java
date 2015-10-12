@@ -1,6 +1,5 @@
 package qbt.repo;
 
-import com.google.common.collect.ImmutableList;
 import java.nio.file.Path;
 import misc1.commons.Maybe;
 import qbt.PackageDirectory;
@@ -8,15 +7,20 @@ import qbt.QbtTempDir;
 import qbt.VcsTreeDigest;
 import qbt.VcsVersionDigest;
 import qbt.repo.CommonRepoAccessor;
-import qbt.vcs.CachedRemote;
 import qbt.vcs.LocalVcs;
+import qbt.vcs.RawRemoteVcs;
+import qbt.vcs.Repository;
 
 public final class PinnedRepoAccessor implements CommonRepoAccessor {
-    private final CachedRemote remote;
+    private final RawRemoteVcs vcs;
+    private final Path cache;
+    private final Repository cacheRepo;
     private final VcsVersionDigest version;
 
-    public PinnedRepoAccessor(CachedRemote remote, VcsVersionDigest version) {
-        this.remote = remote;
+    public PinnedRepoAccessor(RawRemoteVcs vcs, Path cache, VcsVersionDigest version) {
+        this.vcs = vcs;
+        this.cache = cache;
+        this.cacheRepo = vcs.getLocalVcs().getRepository(cache);
         this.version = version;
     }
 
@@ -25,7 +29,7 @@ public final class PinnedRepoAccessor implements CommonRepoAccessor {
         final QbtTempDir packageDir = new QbtTempDir();
         // We could leak packageDir if this checkout crashes but oh
         // well.
-        remote.checkoutTree(version, prefix, packageDir.path);
+        cacheRepo.checkoutTree(getSubtree(prefix), packageDir.path);
         return new PackageDirectory() {
             @Override
             public Path getDir() {
@@ -42,10 +46,10 @@ public final class PinnedRepoAccessor implements CommonRepoAccessor {
     @Override
     public VcsTreeDigest getEffectiveTree(Maybe<String> prefix) {
         if(prefix.isPresent()) {
-            return remote.getSubtree(version, prefix.get(null));
+            return cacheRepo.getSubtree(version, prefix.get(null));
         }
         else {
-            return remote.getLocalVcs().emptyTree();
+            return vcs.getLocalVcs().emptyTree();
         }
     }
 
@@ -55,18 +59,18 @@ public final class PinnedRepoAccessor implements CommonRepoAccessor {
     }
 
     public void findCommit(Path dir) {
-        remote.findCommit(dir, ImmutableList.of(version));
+        vcs.addPinToRemote(cache, dir.toAbsolutePath().toString(), version);
     }
 
     public LocalVcs getLocalVcs() {
-        return remote.getLocalVcs();
+        return vcs.getLocalVcs();
     }
 
     public void addPin(Path dir, VcsVersionDigest version) {
-        remote.addPin(dir, version);
+        vcs.addPinToRemote(dir, cache.toAbsolutePath().toString(), version);
     }
 
     public VcsTreeDigest getSubtree(String prefix) {
-        return remote.getSubtree(version, prefix);
+        return cacheRepo.getSubtree(version, prefix);
     }
 }
