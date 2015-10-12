@@ -12,12 +12,14 @@ import qbt.repo.RemoteRepoAccessor;
 
 public final class QbtConfig {
     public final LocalRepoFinder localRepoFinder;
-    public final RepoConfig repoConfig;
+    public final LocalPinsRepo localPinsRepo;
+    public final QbtRemoteFinder qbtRemoteFinder;
     public final ArtifactCacher artifactCacher;
 
-    public QbtConfig(LocalRepoFinder localRepoFinder, RepoConfig repoConfig, ArtifactCacher artifactCacher) {
+    public QbtConfig(LocalRepoFinder localRepoFinder, LocalPinsRepo localPinsRepo, QbtRemoteFinder qbtRemoteFinder, ArtifactCacher artifactCacher) {
         this.localRepoFinder = localRepoFinder;
-        this.repoConfig = repoConfig;
+        this.localPinsRepo = localPinsRepo;
+        this.qbtRemoteFinder = qbtRemoteFinder;
         this.artifactCacher = artifactCacher;
     }
 
@@ -37,10 +39,10 @@ public final class QbtConfig {
         if(local != null) {
             return local;
         }
-        RemoteRepoAccessor remote = repoConfig.findRemoteRepo(repo, version);
-        if(remote != null) {
-            return remote;
+        CommonRepoAccessor localPin = localPinsRepo.findPinnedRepo(repo, version);
+        if(localPin != null) {
+            return localPin;
         }
-        throw new IllegalArgumentException("Could not find local or remote repo for " + repo + " at " + version);
+        throw new IllegalArgumentException("Could not find override or local pin for " + repo + " at " + version);
     }
 }
