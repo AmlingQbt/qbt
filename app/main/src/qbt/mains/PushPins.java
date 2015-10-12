@@ -1,12 +1,12 @@
 package qbt.mains;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import java.io.IOException;
 import java.util.Collection;
-import misc1.commons.Maybe;
-import misc1.commons.options.NamedStringSingletonArgumentOptionsFragment;
 import misc1.commons.options.OptionsFragment;
 import misc1.commons.options.OptionsResults;
+import misc1.commons.options.UnparsedOptionsFragment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import qbt.HelpTier;
@@ -33,7 +33,7 @@ public class PushPins extends QbtCommand<PushPins.Options> {
         public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
         public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
         public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.OVERRIDES);
-        public static final OptionsFragment<Options, ?, String> remote = new NamedStringSingletonArgumentOptionsFragment<Options>(ImmutableList.of("--remote"), Maybe.<String>not(), "QBT remote to which to push");
+        public static final OptionsFragment<Options, ?, ImmutableList<String>> remote = new UnparsedOptionsFragment<Options>("QBT remote to which to push", false, 1, 1);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PushPins extends QbtCommand<PushPins.Options> {
         QbtConfig config = Options.config.getConfig(options);
         QbtManifest manifest = Options.manifest.getResult(options).parse();
         Collection<PackageTip> repos = Options.repos.getRepos(config, manifest, options);
-        String qbtRemoteString = options.get(Options.remote);
+        String qbtRemoteString = Iterables.getOnlyElement(options.get(Options.remote));
         QbtRemote qbtRemote = config.qbtRemoteFinder.requireQbtRemote(qbtRemoteString);
         int total = 0;
         for(PackageTip repo : repos) {
