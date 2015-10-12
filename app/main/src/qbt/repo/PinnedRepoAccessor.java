@@ -8,6 +8,7 @@ import qbt.VcsTreeDigest;
 import qbt.VcsVersionDigest;
 import qbt.repo.CommonRepoAccessor;
 import qbt.vcs.LocalVcs;
+import qbt.vcs.RawRemote;
 import qbt.vcs.RawRemoteVcs;
 import qbt.vcs.Repository;
 
@@ -72,5 +73,13 @@ public final class PinnedRepoAccessor implements CommonRepoAccessor {
 
     public VcsTreeDigest getSubtree(String prefix) {
         return cacheRepo.getSubtree(version, prefix);
+    }
+
+    public void pushToRemote(RawRemote remote) {
+        RawRemoteVcs vcs2 = remote.getRawRemoteVcs();
+        if(!vcs2.equals(vcs)) {
+            throw new IllegalStateException("Mismatch of VCS between pins " + vcs + " and remote " + vcs2);
+        }
+        vcs.addPinToRemote(cache, remote.getRemoteString(), version);
     }
 }
