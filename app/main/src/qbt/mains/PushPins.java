@@ -7,8 +7,6 @@ import java.util.Collection;
 import misc1.commons.options.OptionsFragment;
 import misc1.commons.options.OptionsResults;
 import misc1.commons.options.UnparsedOptionsFragment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import qbt.HelpTier;
 import qbt.PackageTip;
 import qbt.QbtCommand;
@@ -26,8 +24,6 @@ import qbt.repo.PinnedRepoAccessor;
 import qbt.vcs.RawRemote;
 
 public class PushPins extends QbtCommand<PushPins.Options> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PushPins.class);
-
     @QbtCommandName("pushPins")
     public static interface Options extends QbtCommandOptions {
         public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
@@ -58,7 +54,6 @@ public class PushPins extends QbtCommand<PushPins.Options> {
         Collection<PackageTip> repos = Options.repos.getRepos(config, manifest, options);
         String qbtRemoteString = Iterables.getOnlyElement(options.get(Options.remote));
         QbtRemote qbtRemote = config.qbtRemoteFinder.requireQbtRemote(qbtRemoteString);
-        int total = 0;
         for(PackageTip repo : repos) {
             RepoManifest repoManifest = manifest.repos.get(repo);
             if(repoManifest == null) {
