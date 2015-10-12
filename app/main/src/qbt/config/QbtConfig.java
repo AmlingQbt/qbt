@@ -6,11 +6,15 @@ import misc1.commons.ExceptionUtils;
 import qbt.artifactcacher.ArtifactCacher;
 
 public final class QbtConfig {
-    public final RepoConfig repoConfig;
+    public final LocalRepoFinder localRepoFinder;
+    public final QbtRemoteFinder qbtRemoteFinder;
+    public final LocalPinsRepo localPins;
     public final ArtifactCacher artifactCacher;
 
-    public QbtConfig(RepoConfig repoConfig, ArtifactCacher artifactCacher) {
-        this.repoConfig = repoConfig;
+    public QbtConfig(LocalRepoFinder localRepoFinder, QbtRemoteFinder qbtRemoteFinder, LocalPinsRepo localPins, ArtifactCacher artifactCacher) {
+        this.localRepoFinder = localRepoFinder;
+        this.qbtRemoteFinder = qbtRemoteFinder;
+        this.localPins = localPins;
         this.artifactCacher = artifactCacher;
     }
 
