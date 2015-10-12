@@ -40,7 +40,7 @@ import qbt.options.ConfigOptionsDelegate;
 import qbt.options.ManifestOptionsDelegate;
 import qbt.options.ShellActionOptionsDelegate;
 import qbt.options.ShellActionOptionsResult;
-import qbt.repo.RemoteRepoAccessor;
+import qbt.repo.PinnedRepoAccessor;
 import qbt.utils.ProcessHelper;
 import qbt.vcs.CachedRemote;
 import qbt.vcs.LocalVcs;
@@ -273,13 +273,13 @@ public final class MergeManifests extends QbtCommand<MergeManifests.Options> {
     private static final Merger<PackageTip, VcsVersionDigest> versionMerger = new Merger<PackageTip, VcsVersionDigest>() {
         @Override
         protected Triple<VcsVersionDigest, VcsVersionDigest, VcsVersionDigest> mergeConflict(Context context, String label, PackageTip repo, VcsVersionDigest lhs, VcsVersionDigest mhs, VcsVersionDigest rhs) {
-            RemoteRepoAccessor lhsResult = context.config.localPinsRepo.requirePin(repo, lhs);
+            PinnedRepoAccessor lhsResult = context.config.localPinsRepo.requirePin(repo, lhs);
             CachedRemote lhsRemote = lhsResult.remote;
 
-            RemoteRepoAccessor mhsResult = context.config.localPinsRepo.requirePin(repo, mhs);
+            PinnedRepoAccessor mhsResult = context.config.localPinsRepo.requirePin(repo, mhs);
             CachedRemote mhsRemote = mhsResult.remote;
 
-            RemoteRepoAccessor rhsResult = context.config.localPinsRepo.requirePin(repo, rhs);
+            PinnedRepoAccessor rhsResult = context.config.localPinsRepo.requirePin(repo, rhs);
             CachedRemote rhsRemote = rhsResult.remote;
 
             if(!lhsRemote.matchedLocal(mhsRemote) || !rhsRemote.matchedLocal(mhsRemote)) {

@@ -22,7 +22,7 @@ import qbt.options.ManifestOptionsDelegate;
 import qbt.options.ManifestOptionsResult;
 import qbt.options.RepoActionOptionsDelegate;
 import qbt.repo.LocalRepoAccessor;
-import qbt.repo.RemoteRepoAccessor;
+import qbt.repo.PinnedRepoAccessor;
 import qbt.vcs.Repository;
 
 public final class UpdateManifestPlumbing extends QbtCommand<UpdateManifestPlumbing.Options> {
@@ -100,7 +100,7 @@ public final class UpdateManifestPlumbing extends QbtCommand<UpdateManifestPlumb
                 }
             }
             if(!newVersion.equals(version)) {
-                RemoteRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
+                PinnedRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
                 pinnedAccessor.remote.findCommit(localRepoAccessor.dir, ImmutableList.of(version));
                 if(!options.get(Options.allowNonFf) && !repository.isAncestorOf(version, newVersion)) {
                     LOGGER.error("Updating " + repo + " from " + version.getRawDigest() + " to " + newVersion.getRawDigest() + " is not fast-forward!");

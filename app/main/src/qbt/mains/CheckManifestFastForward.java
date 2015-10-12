@@ -16,7 +16,7 @@ import qbt.config.QbtConfig;
 import qbt.diffmanifests.MapDiffer;
 import qbt.options.ConfigOptionsDelegate;
 import qbt.options.ManifestOptionsDelegate;
-import qbt.repo.RemoteRepoAccessor;
+import qbt.repo.PinnedRepoAccessor;
 import qbt.vcs.CachedRemote;
 import qbt.vcs.LocalVcs;
 
@@ -58,8 +58,8 @@ public class CheckManifestFastForward extends QbtCommand<CheckManifestFastForwar
         new MapDiffer<PackageTip, RepoManifest>(lhs.repos, rhs.repos, PackageTip.COMPARATOR) {
             @Override
             protected void edit(PackageTip repo, RepoManifest lhs, RepoManifest rhs) {
-                RemoteRepoAccessor lhsResult = config.localPinsRepo.requirePin(repo, lhs.version);
-                RemoteRepoAccessor rhsResult = config.localPinsRepo.requirePin(repo, rhs.version);
+                PinnedRepoAccessor lhsResult = config.localPinsRepo.requirePin(repo, lhs.version);
+                PinnedRepoAccessor rhsResult = config.localPinsRepo.requirePin(repo, rhs.version);
 
                 CachedRemote lhsRemote = lhsResult.remote;
                 CachedRemote rhsRemote = rhsResult.remote;

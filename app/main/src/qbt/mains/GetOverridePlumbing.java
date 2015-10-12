@@ -19,7 +19,7 @@ import qbt.options.ConfigOptionsDelegate;
 import qbt.options.ManifestOptionsDelegate;
 import qbt.options.RepoActionOptionsDelegate;
 import qbt.repo.LocalRepoAccessor;
-import qbt.repo.RemoteRepoAccessor;
+import qbt.repo.PinnedRepoAccessor;
 import qbt.vcs.CachedRemote;
 import qbt.vcs.LocalVcs;
 
@@ -66,7 +66,7 @@ public final class GetOverridePlumbing extends QbtCommand<GetOverridePlumbing.Op
                 throw new IllegalArgumentException("No such repo [tip] " + repo);
             }
             VcsVersionDigest version = repoManifest.version;
-            RemoteRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
+            PinnedRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
             LocalRepoAccessor newLocal = config.localRepoFinder.createLocalRepo(repo);
             if(newLocal == null) {
                 throw new IllegalArgumentException("Requested override of " + repo + " which has no associated local directory");

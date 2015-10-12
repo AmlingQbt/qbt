@@ -8,7 +8,7 @@ import qbt.VcsVersionDigest;
 import qbt.artifactcacher.ArtifactCacher;
 import qbt.repo.CommonRepoAccessor;
 import qbt.repo.LocalRepoAccessor;
-import qbt.repo.RemoteRepoAccessor;
+import qbt.repo.PinnedRepoAccessor;
 
 public final class QbtConfig {
     public final LocalRepoFinder localRepoFinder;
@@ -39,7 +39,7 @@ public final class QbtConfig {
         if(local != null) {
             return local;
         }
-        RemoteRepoAccessor localPin = localPinsRepo.findPin(repo, version);
+        PinnedRepoAccessor localPin = localPinsRepo.findPin(repo, version);
         if(localPin != null) {
             return localPin;
         }

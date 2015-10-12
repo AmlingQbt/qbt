@@ -31,7 +31,7 @@ import qbt.options.RepoActionOptionsDelegate;
 import qbt.options.ShellActionOptionsDelegate;
 import qbt.options.ShellActionOptionsResult;
 import qbt.repo.LocalRepoAccessor;
-import qbt.repo.RemoteRepoAccessor;
+import qbt.repo.PinnedRepoAccessor;
 import qbt.utils.ProcessHelper;
 
 public final class RunOverridesPlumbing extends QbtCommand<RunOverridesPlumbing.Options> {
@@ -108,7 +108,7 @@ public final class RunOverridesPlumbing extends QbtCommand<RunOverridesPlumbing.
                         String envName = "REPO_VERSION" + (name == null ? "" : ("_" + name));
                         if(version != null) {
                             if(!localRepoAccessor.vcs.getRepository(localRepoAccessor.dir).commitExists(version)) {
-                                RemoteRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
+                                PinnedRepoAccessor pinnedAccessor = config.localPinsRepo.requirePin(repo, version);
                                 pinnedAccessor.remote.findCommit(localRepoAccessor.dir, ImmutableList.of(version));
                             }
                         }

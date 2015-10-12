@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import qbt.PackageTip;
 import qbt.QbtUtils;
 import qbt.VcsVersionDigest;
-import qbt.repo.RemoteRepoAccessor;
+import qbt.repo.PinnedRepoAccessor;
 import qbt.vcs.CacheDirCachedRemoteVcs;
 import qbt.vcs.CachedRemote;
 import qbt.vcs.CachedRemoteVcs;
@@ -22,7 +22,7 @@ public final class SimpleLocalPinsRepo extends AbstractLocalPinsRepo {
     }
 
     @Override
-    public RemoteRepoAccessor findPin(PackageTip repo, VcsVersionDigest version) {
+    public PinnedRepoAccessor findPin(PackageTip repo, VcsVersionDigest version) {
         Path cache = root.resolve("pins").resolve(repo.pkg);
 
         QbtUtils.semiAtomicDirCache(cache, "", new Function<Path, ObjectUtils.Null>() {
@@ -37,6 +37,6 @@ public final class SimpleLocalPinsRepo extends AbstractLocalPinsRepo {
             return null;
         }
 
-        return new RemoteRepoAccessor(new CachedRemote(cache.toAbsolutePath().toString(), vcs), version);
+        return new PinnedRepoAccessor(new CachedRemote(cache.toAbsolutePath().toString(), vcs), version);
     }
 }

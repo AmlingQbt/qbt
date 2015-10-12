@@ -9,11 +9,11 @@ import qbt.VcsVersionDigest;
 import qbt.repo.CommonRepoAccessor;
 import qbt.vcs.CachedRemote;
 
-public final class RemoteRepoAccessor implements CommonRepoAccessor {
+public final class PinnedRepoAccessor implements CommonRepoAccessor {
     public final CachedRemote remote;
     public final VcsVersionDigest version;
 
-    public RemoteRepoAccessor(CachedRemote remote, VcsVersionDigest version) {
+    public PinnedRepoAccessor(CachedRemote remote, VcsVersionDigest version) {
         this.remote = remote;
         this.version = version;
     }
