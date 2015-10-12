@@ -7,7 +7,8 @@ import qbt.QbtManifest;
 import qbt.RepoManifest;
 import qbt.VcsVersionDigest;
 import qbt.config.QbtConfig;
-import qbt.config.RepoConfig;
+import qbt.repo.CommonRepoAccessor;
+import qbt.repo.Repos;
 
 public abstract class ManifestCumulativeVersionComputer<K> extends CumulativeVersionComputer<K> {
     private final QbtConfig config;
@@ -25,8 +26,8 @@ public abstract class ManifestCumulativeVersionComputer<K> extends CumulativeVer
     }
 
     @Override
-    protected RepoConfig.RequireRepoResult requireRepo(PackageTip repo, VcsVersionDigest version) {
-        return config.repoConfig.requireRepo(repo, version);
+    protected CommonRepoAccessor requireRepo(PackageTip repo, VcsVersionDigest version) {
+        return Repos.findCommon(config, repo, version);
     }
 
     public ManifestCumulativeVersionComputer(QbtConfig config, QbtManifest manifest) {

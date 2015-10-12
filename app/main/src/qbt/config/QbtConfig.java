@@ -4,6 +4,7 @@ import groovy.lang.GroovyShell;
 import java.nio.file.Path;
 import misc1.commons.ExceptionUtils;
 import qbt.artifactcacher.ArtifactCacher;
+import qbt.repo.LocalPinsRepo;
 
 public final class QbtConfig {
     public final LocalRepoFinder localRepoFinder;

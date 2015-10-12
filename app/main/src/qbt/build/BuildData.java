@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import qbt.NormalDependencyType;
 import qbt.artifactcacher.ArtifactCacherUtils;
 import qbt.artifactcacher.ArtifactReference;
-import qbt.config.RepoConfig;
+import qbt.repo.CommonRepoAccessor;
 import qbt.map.CumulativeVersionComputer;
 import qbt.metadata.Metadata;
 import qbt.metadata.PackageMetadataType;
@@ -14,13 +14,13 @@ import qbt.recursive.cvrpd.CvRecursivePackageData;
 
 public final class BuildData {
     public final CumulativeVersion v;
-    public final RepoConfig.RequireRepoResult requireRepoResult;
+    public final CommonRepoAccessor commonRepoAccessor;
     public final Metadata<PackageMetadataType> metadata;
     public final Map<String, Pair<NormalDependencyType, CvRecursivePackageData<ArtifactReference>>> dependencyArtifacts;
 
-    private BuildData(CumulativeVersion v, RepoConfig.RequireRepoResult requireRepoResult, Metadata<PackageMetadataType> metadata, Map<String, Pair<NormalDependencyType, CvRecursivePackageData<ArtifactReference>>> dependencyArtifacts) {
+    private BuildData(CumulativeVersion v, CommonRepoAccessor commonRepoAccessor, Metadata<PackageMetadataType> metadata, Map<String, Pair<NormalDependencyType, CvRecursivePackageData<ArtifactReference>>> dependencyArtifacts) {
         this.v = v;
-        this.requireRepoResult = requireRepoResult;
+        this.commonRepoAccessor = commonRepoAccessor;
         this.metadata = metadata;
         this.dependencyArtifacts = dependencyArtifacts;
     }
