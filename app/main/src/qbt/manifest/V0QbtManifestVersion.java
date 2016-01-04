@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import misc1.commons.Maybe;
-import misc1.commons.ds.WrapperType;
 import misc1.commons.merge.Merge;
 import misc1.commons.merge.Merges;
 import misc1.commons.tuple.Misc1PairUtils;
@@ -71,18 +70,6 @@ class V0QbtManifestVersion extends QbtManifestUpgradeableVersion<V0QbtManifestVe
         }
     }
 
-    private final WrapperType<Manifest, QbtManifest> MANIFEST_WRAPPER_TYPE = new WrapperType<Manifest, QbtManifest>() {
-        @Override
-        public QbtManifest unwrap(Manifest manifest) {
-            return manifest.manifest;
-        }
-
-        @Override
-        public Manifest wrap(QbtManifest manifest) {
-            return new Manifest(manifest);
-        }
-    };
-
     static class Builder implements LegacyQbtManifestBuilder<Manifest, Builder> {
         public QbtManifest.Builder builder;
 
@@ -108,7 +95,7 @@ class V0QbtManifestVersion extends QbtManifestUpgradeableVersion<V0QbtManifestVe
 
     @Override
     public Merge<Manifest> merge() {
-        return Merges.wrapper(MANIFEST_WRAPPER_TYPE, QbtManifest.TYPE.merge());
+        return Merges.wrapper((manifest) -> manifest.manifest, QbtManifest.TYPE.merge(), Manifest::new);
     }
 
     @Override

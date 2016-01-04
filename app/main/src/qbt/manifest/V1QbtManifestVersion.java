@@ -2,7 +2,6 @@ package qbt.manifest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import misc1.commons.ds.WrapperType;
 import misc1.commons.merge.Merge;
 import misc1.commons.merge.Merges;
 import qbt.VcsVersionDigest;
@@ -43,18 +42,6 @@ class V1QbtManifestVersion extends QbtManifestVersion<V1QbtManifestVersion.Manif
         }
     }
 
-    private final WrapperType<Manifest, QbtManifest> MANIFEST_WRAPPER_TYPE = new WrapperType<Manifest, QbtManifest>() {
-        @Override
-        public QbtManifest unwrap(Manifest manifest) {
-            return manifest.manifest;
-        }
-
-        @Override
-        public Manifest wrap(QbtManifest manifest) {
-            return new Manifest(manifest);
-        }
-    };
-
     class Builder implements LegacyQbtManifestBuilder<Manifest, Builder> {
         public QbtManifest.Builder builder;
 
@@ -78,21 +65,9 @@ class V1QbtManifestVersion extends QbtManifestVersion<V1QbtManifestVersion.Manif
         }
     }
 
-    private final WrapperType<Builder, QbtManifest.Builder> BUILDER_WRAPPER_TYPE = new WrapperType<Builder, QbtManifest.Builder>() {
-        @Override
-        public QbtManifest.Builder unwrap(Builder builder) {
-            return builder.builder;
-        }
-
-        @Override
-        public Builder wrap(QbtManifest.Builder builder) {
-            return new Builder(builder);
-        }
-    };
-
     @Override
     public Merge<Manifest> merge() {
-        return Merges.wrapper(MANIFEST_WRAPPER_TYPE, QbtManifest.TYPE.merge());
+        return Merges.wrapper((manifest) -> manifest.manifest, QbtManifest.TYPE.merge(), Manifest::new);
     }
 
     @Override
@@ -100,7 +75,7 @@ class V1QbtManifestVersion extends QbtManifestVersion<V1QbtManifestVersion.Manif
         return new JsonQbtManifestParser<Manifest, Builder>(this) {
             @Override
             protected JsonSerializer<Builder> serializer() {
-                return JsonSerializers.wrapper(BUILDER_WRAPPER_TYPE, QbtManifest.SERIALIZER);
+                return JsonSerializers.wrapper((builder) -> builder.builder, QbtManifest.SERIALIZER, Builder::new);
             }
         };
     }
