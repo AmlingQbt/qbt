@@ -51,7 +51,7 @@ class V1QbtManifestVersion extends QbtManifestVersion<V1QbtManifestVersion.Manif
 
         @Override
         public Builder withRepoVersion(RepoTip repo, VcsVersionDigest commit) {
-            return new Builder(builder.with(repo, builder.get(repo).set(RepoManifest.VERSION, commit)));
+            return new Builder(builder.transform(repo, (repoManifest) -> repoManifest.set(RepoManifest.VERSION, commit)));
         }
 
         @Override
