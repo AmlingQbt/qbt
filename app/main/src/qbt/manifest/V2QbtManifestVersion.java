@@ -6,17 +6,16 @@ import misc1.commons.ds.WrapperType;
 import misc1.commons.merge.Merge;
 import misc1.commons.merge.Merges;
 import qbt.VcsVersionDigest;
-import qbt.manifest.v1.QbtManifest;
-import qbt.manifest.v1.RepoManifest;
-import qbt.manifest.v1.Upgrades;
+import qbt.manifest.current.QbtManifest;
+import qbt.manifest.current.RepoManifest;
 import qbt.tip.RepoTip;
 
-class V1QbtManifestVersion extends QbtManifestUpgradeableVersion<V1QbtManifestVersion.Manifest, V1QbtManifestVersion.Builder, V2QbtManifestVersion.Manifest> {
-    public V1QbtManifestVersion() {
-        super(1, Manifest.class, V2QbtManifestVersion.Manifest.class);
+class V2QbtManifestVersion extends QbtManifestVersion<V2QbtManifestVersion.Manifest, V2QbtManifestVersion.Builder> {
+    public V2QbtManifestVersion() {
+        super(2, Manifest.class);
     }
 
-    class Manifest implements LegacyQbtManifest<Manifest, Builder>, UpgradeableQbtManifest<V2QbtManifestVersion.Manifest> {
+    class Manifest implements LegacyQbtManifest<Manifest, Builder> {
         public final QbtManifest manifest;
 
         public Manifest(QbtManifest manifest) {
@@ -25,7 +24,7 @@ class V1QbtManifestVersion extends QbtManifestUpgradeableVersion<V1QbtManifestVe
 
         @Override
         public ImmutableSet<RepoTip> getRepos() {
-            return manifest.map.keySet();
+            return manifest.repos.keySet();
         }
 
         @Override
@@ -39,13 +38,8 @@ class V1QbtManifestVersion extends QbtManifestUpgradeableVersion<V1QbtManifestVe
         }
 
         @Override
-        public V2QbtManifestVersion.Manifest upgrade() {
-            return QbtManifestVersions.V2.new Manifest(Upgrades.upgrade_QbtManifest(manifest).build());
-        }
-
-        @Override
-        public qbt.manifest.current.QbtManifest current() {
-            return upgrade().current();
+        public QbtManifest current() {
+            return manifest;
         }
     }
 
