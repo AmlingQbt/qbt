@@ -94,18 +94,18 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
 
         String prefix = options.get(Options.prefix);
         if(prefix != null) {
-            pmd = pmd.transform(PackageMetadata.PREFIX, (oldprefix) -> Maybe.of(prefix));
+            pmd = pmd.set(PackageMetadata.PREFIX, Maybe.of(prefix));
         }
 
         Maybe<Boolean> arch = options.get(Options.archIndependent);
         if(arch.isPresent()) {
-            pmd = pmd.transform(PackageMetadata.ARCH_INDEPENDENT, (oldarch) -> arch.get(null));
+            pmd = pmd.set(PackageMetadata.ARCH_INDEPENDENT, arch.get(null));
         }
 
         String strType = options.get(Options.type);
         if(strType != null) {
             PackageBuildType type = PackageBuildType.valueOf(strType.toUpperCase());
-            pmd = pmd.transform(PackageMetadata.BUILD_TYPE, (oldtype) -> type);
+            pmd = pmd.set(PackageMetadata.BUILD_TYPE, type);
         }
 
         for(String qbtEnv : options.get(Options.addQbtEnv)) {
