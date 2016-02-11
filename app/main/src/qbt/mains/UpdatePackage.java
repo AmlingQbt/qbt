@@ -1,11 +1,12 @@
 package qbt.mains;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import java.io.IOException;
+import java.util.Map;
 import misc1.commons.Maybe;
 import misc1.commons.options.OptionsFragment;
 import misc1.commons.options.OptionsLibrary;
@@ -127,30 +128,22 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
         }
 
         // update normal deps
-        ImmutableMap.Builder<Pair<NormalDependencyType, PackageTip>, DepAction> normalDepsToProcess = ImmutableMap.builder();
-
-        normalDepsToProcess.putAll(buildDepMap(Iterables.transform(options.get(Options.addNormalDeps), (Pair<String, String> input) -> {
+        DepActions<Pair<NormalDependencyType, PackageTip>> normalActions = buildDepActions(options, Options.addNormalDeps, Options.removeNormalDeps, (input) -> {
             NormalDependencyType ndt = NormalDependencyType.BUILDTIME_WEAK.fromTag(input.getLeft());
             PackageTip dt = PackageTip.TYPE.parseRequire(input.getRight());
             return Pair.of(ndt, dt);
-        }), DepAction.ADD));
-
-        normalDepsToProcess.putAll(buildDepMap(Iterables.transform(options.get(Options.removeNormalDeps), (Pair<String, String> input) -> {
-            NormalDependencyType ndt = NormalDependencyType.BUILDTIME_WEAK.fromTag(input.getLeft());
-            PackageTip dt = PackageTip.TYPE.parseRequire(input.getRight());
-            return Pair.of(ndt, dt);
-        }), DepAction.REMOVE));
+        });
 
         PackageNormalDeps.Builder pnd = pm.get(PackageManifest.NORMAL_DEPS).builder();
         // remove first, so --remove WEAK X --add STRONG X works
-        for(Pair<NormalDependencyType, PackageTip> dep : Maps.filterEntries(normalDepsToProcess.build(), (e) -> e.getValue().equals(DepAction.REMOVE)).keySet()) {
+        for(Pair<NormalDependencyType, PackageTip> dep : normalActions.adds) {
             Pair<NormalDependencyType, String> val = pnd.map.get(dep.getRight().name);
             if(val == null) {
                 throw new IllegalArgumentException("Cannot remove normal dependency " + dep + " because it doesn't exist");
             }
             pnd = pnd.without(dep.getRight().name);
         }
-        for(Pair<NormalDependencyType, PackageTip> dep : Maps.filterEntries(normalDepsToProcess.build(), (e) -> e.getValue().equals(DepAction.ADD)).keySet()) {
+        for(Pair<NormalDependencyType, PackageTip> dep : normalActions.removes) {
             Pair<NormalDependencyType, String> val = pnd.map.get(dep.getRight().name);
             if(val != null && val.getRight().equals(dep.getRight().tip)) {
                 throw new IllegalArgumentException("Cannot add normal dependency " + dep + " because it already exists");
@@ -160,30 +153,22 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
         }
 
         // update verify deps
-        ImmutableMap.Builder<Pair<PackageTip, String>, DepAction> verifyDepsToProcess = ImmutableMap.builder();
-
-        verifyDepsToProcess.putAll(buildDepMap(Iterables.transform(options.get(Options.addVerifyDeps), (Pair<String, String> input) -> {
+        DepActions<Pair<PackageTip, String>> verifyActions = buildDepActions(options, Options.addVerifyDeps, Options.removeVerifyDeps, (input) -> {
             String type = input.getLeft();
             PackageTip dt = PackageTip.TYPE.parseRequire(input.getRight());
             return Pair.of(dt, type);
-        }), DepAction.ADD));
-
-        verifyDepsToProcess.putAll(buildDepMap(Iterables.transform(options.get(Options.removeVerifyDeps), (Pair<String, String> input) -> {
-            String type = input.getLeft();
-            PackageTip dt = PackageTip.TYPE.parseRequire(input.getRight());
-            return Pair.of(dt, type);
-        }), DepAction.REMOVE));
+        });
 
         PackageVerifyDeps.Builder pvd = pm.get(PackageManifest.VERIFY_DEPS).builder();
 
-        for(Pair<PackageTip, String> dep : Maps.filterEntries(verifyDepsToProcess.build(), (e) -> e.getValue().equals(DepAction.REMOVE)).keySet()) {
+        for(Pair<PackageTip, String> dep : verifyActions.adds) {
             if(!pvd.map.containsKey(dep)) {
                 throw new IllegalArgumentException("Cannot remove verify dependency, already doesn't exist: " + dep);
             }
             pvd = pvd.without(dep);
         }
 
-        for(Pair<PackageTip, String> dep : Maps.filterEntries(verifyDepsToProcess.build(), (e) -> e.getValue().equals(DepAction.ADD)).keySet()) {
+        for(Pair<PackageTip, String> dep : verifyActions.removes) {
             if(pvd.map.containsKey(dep)) {
                 throw new IllegalArgumentException("Cannot add verify dependency, already exists: " + dep);
             }
@@ -201,16 +186,28 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
         return 0;
     }
 
-    private <A, B, C> ImmutableMap<Pair<A, B>, C> buildDepMap(Iterable<Pair<A, B>> input, C value) {
-        ImmutableMap.Builder<Pair<A, B>, C> b = ImmutableMap.builder();
-        for(Pair<A, B> key : input) {
-            b.put(key, value);
+    private static class DepActions<K> {
+        public final ImmutableSet<K> adds;
+        public final ImmutableSet<K> removes;
+        public DepActions(ImmutableSet<K> adds, ImmutableSet<K> removes) {
+            this.adds = adds;
+            this.removes = removes;
         }
-        return b.build();
     }
 
-    private enum DepAction {
-        ADD,
-        REMOVE;
+    private static <M, K> DepActions<K> buildDepActions(OptionsResults<? extends Options> options, OptionsFragment<Options, ImmutableList<M>> addOption, OptionsFragment<Options, ImmutableList<M>> removeOption, Function<M, K> parse) {
+        ImmutableMap.Builder<K, Boolean> b = ImmutableMap.builder();
+        for(M arg : options.get(addOption)) {
+            b.put(parse.apply(arg), true);
+        }
+        for(M arg : options.get(addOption)) {
+            b.put(parse.apply(arg), false);
+        }
+        ImmutableSet.Builder<K> adds = ImmutableSet.builder();
+        ImmutableSet.Builder<K> removes = ImmutableSet.builder();
+        for(Map.Entry<K, Boolean> e : b.build().entrySet()) {
+            (e.getValue() ? adds : removes).add(e.getKey());
+        }
+        return new DepActions<K>(adds.build(), removes.build());
     }
 }
