@@ -141,12 +141,20 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
             if(val == null) {
                 throw new IllegalArgumentException("Cannot remove normal dependency " + dep + " because it doesn't exist");
             }
+            Pair<NormalDependencyType, PackageTip> exists = Pair.of(val.getLeft(), PackageTip.TYPE.of(dep.getRight().name, val.getRight()));
+            if(!dep.equals(exists)) {
+                throw new IllegalArgumentException("Cannot remove normal dependency " + dep + " because it doesn't exist (conflicting dependency " + exists + " does exist)");
+            }
             pnd = pnd.without(dep.getRight().name);
         }
         for(Pair<NormalDependencyType, PackageTip> dep : normalActions.removes) {
             Pair<NormalDependencyType, String> val = pnd.map.get(dep.getRight().name);
-            if(val != null && val.getRight().equals(dep.getRight().tip)) {
-                throw new IllegalArgumentException("Cannot add normal dependency " + dep + " because it already exists");
+            if(val != null) {
+                Pair<NormalDependencyType, PackageTip> exists = Pair.of(val.getLeft(), PackageTip.TYPE.of(dep.getRight().name, val.getRight()));
+                if(dep.equals(exists)) {
+                    throw new IllegalArgumentException("Cannot add normal dependency " + dep + " because it already exists");
+                }
+                throw new IllegalArgumentException("Cannot add normal dependency " + dep + " because it conflicts with existing " + exists);
             }
             PackageTip dt = dep.getRight();
             pnd = pnd.with(dt.name, Pair.of(dep.getLeft(), dt.tip));
