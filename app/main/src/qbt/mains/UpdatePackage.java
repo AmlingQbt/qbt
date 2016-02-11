@@ -40,7 +40,7 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
         public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
         public static final OptionsFragment<Options, String> pkg = o.oneArg("package").transform(o.singleton()).helpDesc("Package to update");
 
-        public final OptionsFragment<Options, String> prefix = o.oneArg("prefix").transform(o.singleton(null)).helpDesc("Prefix of package in the repository ('null' to make it empty)");
+        public final OptionsFragment<Options, String> prefix = o.oneArg("prefix").transform(o.singleton(null)).helpDesc("Prefix of package in the repository");
 
         public final OptionsFragment<Options, String> type = o.oneArg("buildType").transform(o.singleton(null)).helpDesc("Package type (normal, copy)");
         public final OptionsFragment<Options, Maybe<Boolean>> archIndependent = o.trinary("archIndependent").helpDesc("Package is architecture independent");
