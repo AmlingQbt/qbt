@@ -35,16 +35,16 @@ public final class CommitData extends Struct<CommitData, CommitData.Builder> {
     static {
         ImmutableList.Builder<StructKey<CommitData, ?, ?>> b = ImmutableList.builder();
 
-        b.add(TREE = new SimpleStructKey<CommitData, VcsTreeDigest>("tree"));
-        b.add(PARENTS = new SimpleStructKey<CommitData, ImmutableList<VcsVersionDigest>>("parents"));
-        b.add(AUTHOR_NAME = new SimpleStructKey<CommitData, String>("authorName"));
-        b.add(AUTHOR_EMAIL = new SimpleStructKey<CommitData, String>("authorEmail"));
-        b.add(AUTHOR_DATE = new SimpleStructKey<CommitData, String>("authorDate"));
-        b.add(COMMITTER_NAME = new SimpleStructKey<CommitData, String>("committerName"));
-        b.add(COMMITTER_EMAIL = new SimpleStructKey<CommitData, String>("committerEmail"));
-        b.add(COMMITTER_DATE = new SimpleStructKey<CommitData, String>("committerDate"));
-        b.add(MESSAGE = new SimpleStructKey<CommitData, String>("message"));
+        b.add(TREE = new SimpleStructKey<>("tree"));
+        b.add(PARENTS = new SimpleStructKey<>("parents"));
+        b.add(AUTHOR_NAME = new SimpleStructKey<>("authorName"));
+        b.add(AUTHOR_EMAIL = new SimpleStructKey<>("authorEmail"));
+        b.add(AUTHOR_DATE = new SimpleStructKey<>("authorDate"));
+        b.add(COMMITTER_NAME = new SimpleStructKey<>("committerName"));
+        b.add(COMMITTER_EMAIL = new SimpleStructKey<>("committerEmail"));
+        b.add(COMMITTER_DATE = new SimpleStructKey<>("committerDate"));
+        b.add(MESSAGE = new SimpleStructKey<>("message"));
 
-        TYPE = new StructType<CommitData, Builder>(b.build(), CommitData::new, Builder::new);
+        TYPE = new StructType<>(b.build(), CommitData::new, Builder::new);
     }
 }

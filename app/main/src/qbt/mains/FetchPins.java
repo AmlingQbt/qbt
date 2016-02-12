@@ -34,10 +34,10 @@ public class FetchPins extends QbtCommand<FetchPins.Options> {
     @QbtCommandName("fetchPins")
     public static interface Options extends QbtCommandOptions {
         public static final OptionsLibrary<Options> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
-        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
-        public static final ParallelismOptionsDelegate<Options> parallelism = new ParallelismOptionsDelegate<Options>();
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>((b, config, manifest) -> {
+        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<>();
+        public static final ParallelismOptionsDelegate<Options> parallelism = new ParallelismOptionsDelegate<>();
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>((b, config, manifest) -> {
             ImmutableSet<RepoTip> s0 = PackageRepoSelection.overrides(config, manifest);
             ImmutableSet<PackageTip> s1 = PackageRepoSelection.reposToPackages(manifest, s0);
             ImmutableSet<PackageTip> s2 = PackageRepoSelection.inwardsClosure(manifest, s1);

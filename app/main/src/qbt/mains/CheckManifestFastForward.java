@@ -21,9 +21,9 @@ import qbt.vcs.LocalVcs;
 public class CheckManifestFastForward extends QbtCommand<CheckManifestFastForward.Options> {
     @QbtCommandName("checkManifestFastForward")
     public static interface Options extends QbtCommandOptions {
-        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
-        public static final ManifestOptionsDelegate<Options> lhs = new ManifestOptionsDelegate<Options>("lhs");
-        public static final ManifestOptionsDelegate<Options> rhs = new ManifestOptionsDelegate<Options>("rhs");
+        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<Options> lhs = new ManifestOptionsDelegate<>("lhs");
+        public static final ManifestOptionsDelegate<Options> rhs = new ManifestOptionsDelegate<>("rhs");
     }
 
     @Override

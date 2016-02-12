@@ -27,8 +27,8 @@ public final class AddRepository extends QbtCommand<AddRepository.Options> {
     @QbtCommandName("addRepository")
     public static interface Options extends QbtCommandOptions {
         public static final OptionsLibrary<Options> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
-        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
+        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<>();
         public final OptionsFragment<Options, String> repo = o.oneArg("repo").transform(o.singleton()).helpDesc("Repo to add");
     }
 

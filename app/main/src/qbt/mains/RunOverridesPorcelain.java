@@ -11,7 +11,7 @@ import qbt.options.RepoActionOptionsDelegate;
 public final class RunOverridesPorcelain extends QbtCommand<RunOverridesPorcelain.Options> {
     @QbtCommandName("runOverrides")
     public static interface Options extends RunOverridesPlumbing.RunOverridesCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.OVERRIDES);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.OVERRIDES);
     }
 
     @Override

@@ -10,7 +10,7 @@ import qbt.options.PackageActionOptionsDelegate;
 public class BuildPorcelain extends QbtCommand<BuildPorcelain.Options> {
     @QbtCommandName("build")
     public static interface Options extends BuildPlumbing.BuildCommonOptions, QbtCommandOptions {
-        public static final PackageActionOptionsDelegate<Options> packages = new PackageActionOptionsDelegate<Options>(PackageActionOptionsDelegate.NoArgsBehaviour.THROW);
+        public static final PackageActionOptionsDelegate<Options> packages = new PackageActionOptionsDelegate<>(PackageActionOptionsDelegate.NoArgsBehaviour.THROW);
     }
 
     @Override

@@ -157,6 +157,6 @@ public final class DependencyComputer {
         }
         Result result = new Result(key, repo, repoManifest, packageTip, packageManifest, replacementsNext);
         Map<String, Pair<NormalDependencyType, SimpleRecursivePackageData<Result>>> dependencyResults = dependencyResultsBuilder.build();
-        return new SimpleRecursivePackageData<Result>(result, dependencyResults);
+        return new SimpleRecursivePackageData<>(result, dependencyResults);
     }
 }

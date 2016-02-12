@@ -30,14 +30,14 @@ public final class UpdateOverridesPlumbing extends QbtCommand<UpdateOverridesPlu
 
     public static interface UpdateOverridesCommonOptions {
         public static final OptionsLibrary<UpdateOverridesCommonOptions> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<UpdateOverridesCommonOptions> config = new ConfigOptionsDelegate<UpdateOverridesCommonOptions>();
-        public static final ManifestOptionsDelegate<UpdateOverridesCommonOptions> manifest = new ManifestOptionsDelegate<UpdateOverridesCommonOptions>();
+        public static final ConfigOptionsDelegate<UpdateOverridesCommonOptions> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<UpdateOverridesCommonOptions> manifest = new ManifestOptionsDelegate<>();
         public static final OptionsFragment<UpdateOverridesCommonOptions, Boolean> allowDirty = o.zeroArg("allow-dirty").transform(o.flag()).helpDesc("Attempt update even if a repo is dirty");
     }
 
     @QbtCommandName("updateOverridesPlumbing")
     public static interface Options extends UpdateOverridesCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
     }
 
     @Override

@@ -36,17 +36,17 @@ import qbt.utils.ProcessHelperUtils;
 public final class RunOverridesPlumbing extends QbtCommand<RunOverridesPlumbing.Options> {
     public static interface RunOverridesCommonOptions {
         public static final OptionsLibrary<RunOverridesCommonOptions> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<RunOverridesCommonOptions> config = new ConfigOptionsDelegate<RunOverridesCommonOptions>();
-        public static final ManifestOptionsDelegate<RunOverridesCommonOptions> manifest = new ManifestOptionsDelegate<RunOverridesCommonOptions>();
-        public static final ParallelismOptionsDelegate<RunOverridesCommonOptions> parallelism = new ParallelismOptionsDelegate<RunOverridesCommonOptions>();
+        public static final ConfigOptionsDelegate<RunOverridesCommonOptions> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<RunOverridesCommonOptions> manifest = new ManifestOptionsDelegate<>();
+        public static final ParallelismOptionsDelegate<RunOverridesCommonOptions> parallelism = new ParallelismOptionsDelegate<>();
         public static final OptionsFragment<RunOverridesCommonOptions, Boolean> noPrefix = o.zeroArg("no-prefix").transform(o.flag()).helpDesc("Don't prefix each line of output with repo banner (the default is to prefix)");
         public static final OptionsFragment<RunOverridesCommonOptions, ImmutableList<String>> extraManifests = o.oneArg("extra-manifest").helpDesc("Extra QBT manifest file (<name>=<filename>)");
-        public static final ShellActionOptionsDelegate<RunOverridesCommonOptions> shellAction = new ShellActionOptionsDelegate<RunOverridesCommonOptions>();
+        public static final ShellActionOptionsDelegate<RunOverridesCommonOptions> shellAction = new ShellActionOptionsDelegate<>();
     }
 
     @QbtCommandName("runOverridesPlumbing")
     public static interface Options extends RunOverridesCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
     }
 
     @Override

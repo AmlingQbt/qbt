@@ -38,7 +38,7 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
     @QbtCommandName("updatePackage")
     public static interface Options extends QbtCommandOptions {
         public static final OptionsLibrary<Options> o = OptionsLibrary.of();
-        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
+        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<>();
         public static final OptionsFragment<Options, String> pkg = o.oneArg("package").transform(o.singleton()).helpDesc("Package to update");
 
         public final OptionsFragment<Options, String> prefix = o.oneArg("prefix").transform(o.singleton(null)).helpDesc("Prefix of package in the repository");
@@ -216,6 +216,6 @@ public final class UpdatePackage extends QbtCommand<UpdatePackage.Options> {
         for(Map.Entry<K, Boolean> e : b.build().entrySet()) {
             (e.getValue() ? adds : removes).add(e.getKey());
         }
-        return new DepActions<K>(adds.build(), removes.build());
+        return new DepActions<>(adds.build(), removes.build());
     }
 }

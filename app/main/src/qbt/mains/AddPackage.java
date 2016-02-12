@@ -24,7 +24,7 @@ public final class AddPackage extends QbtCommand<AddPackage.Options> {
     @QbtCommandName("addPackage")
     public static interface Options extends QbtCommandOptions {
         public static final OptionsLibrary<Options> o = OptionsLibrary.of();
-        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
+        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<>();
         public static final OptionsFragment<Options, String> repo = o.oneArg("repo").transform(o.singleton()).helpDesc("Repo to add package in");
         public static final OptionsFragment<Options, String> pkg = o.oneArg("package").transform(o.singleton()).helpDesc("Package to add");
     }

@@ -11,7 +11,7 @@ import qbt.options.RepoActionOptionsDelegate;
 public final class UpdateManifestPorcelain extends QbtCommand<UpdateManifestPorcelain.Options> {
     @QbtCommandName("updateManifest")
     public static interface Options extends UpdateManifestPlumbing.UpdateManifestCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.OVERRIDES);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.OVERRIDES);
     }
 
     @Override

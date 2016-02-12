@@ -42,7 +42,7 @@ public final class LegacyQbtManifest<M, B> {
                     QbtManifestVersion<N, ?> nextVersion = version.nextVersion;
                     return new Object() {
                         public <X> LegacyQbtManifest<M2, B2> run(QbtManifestVersion<N, X> nextVersion) {
-                            return new LegacyQbtManifest<N, X>(nextVersion, nextManifest).upgrade(targetVersion);
+                            return new LegacyQbtManifest<>(nextVersion, nextManifest).upgrade(targetVersion);
                         }
                     }.run(nextVersion);
                 }
@@ -61,15 +61,15 @@ public final class LegacyQbtManifest<M, B> {
         }
 
         public Builder<M, B> withRepoVersion(RepoTip repo, VcsVersionDigest commit) {
-            return new Builder<M, B>(version, version.withRepoVersion(builder, repo, commit));
+            return new Builder<>(version, version.withRepoVersion(builder, repo, commit));
         }
 
         public Builder<M, B> withoutRepo(RepoTip repo) {
-            return new Builder<M, B>(version, version.withoutRepo(builder, repo));
+            return new Builder<>(version, version.withoutRepo(builder, repo));
         }
 
         public LegacyQbtManifest<M, B> build() {
-            return new LegacyQbtManifest<M, B>(version, version.build(builder));
+            return new LegacyQbtManifest<>(version, version.build(builder));
         }
     }
 }

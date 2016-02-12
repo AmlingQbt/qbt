@@ -39,10 +39,10 @@ public final class RunArtifact extends QbtCommand<RunArtifact.Options> {
     @QbtCommandName("runArtifact")
     public static interface Options extends QbtCommandOptions {
         public static final OptionsLibrary<Options> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
-        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
-        public static final CumulativeVersionComputerOptionsDelegate<Options> cumulativeVersionComputerOptions = new CumulativeVersionComputerOptionsDelegate<Options>();
-        public static final PackageMapperHelperOptionsDelegate<Options> packageMapperHelperOptions = new PackageMapperHelperOptionsDelegate<Options>();
+        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<>();
+        public static final CumulativeVersionComputerOptionsDelegate<Options> cumulativeVersionComputerOptions = new CumulativeVersionComputerOptionsDelegate<>();
+        public static final PackageMapperHelperOptionsDelegate<Options> packageMapperHelperOptions = new PackageMapperHelperOptionsDelegate<>();
         public static final OptionsFragment<Options, String> pkg = o.oneArg("package").transform(o.singleton()).helpDesc("Run an artifact from this");
         public static final OptionsFragment<Options, Boolean> absolute = o.zeroArg("absolute").transform(o.flag()).helpDesc("Do not prepend artifact path to command");
         public static final OptionsFragment<Options, Boolean> artifactsDir = o.zeroArg("artifactsDir").transform(o.flag()).helpDesc("Run the command in the package artifact directory rather than the current directory");
@@ -83,7 +83,7 @@ public final class RunArtifact extends QbtCommand<RunArtifact.Options> {
                     CvRecursivePackageDataComputationMapper<CumulativeVersionComputer.Result, CvRecursivePackageData<CumulativeVersionComputer.Result>, CvRecursivePackageData<ArtifactReference>> computationMapper = new CvRecursivePackageDataComputationMapper<CumulativeVersionComputer.Result, CvRecursivePackageData<CumulativeVersionComputer.Result>, CvRecursivePackageData<ArtifactReference>>() {
                         @Override
                         protected CvRecursivePackageData<ArtifactReference> map(CvRecursivePackageData<CumulativeVersionComputer.Result> commonRepoAccessor, Map<String, Pair<NormalDependencyType, CvRecursivePackageData<ArtifactReference>>> dependencyResults) {
-                            return new CvRecursivePackageData<ArtifactReference>(commonRepoAccessor.v, cb.runBuild(new BuildData(commonRepoAccessor, dependencyResults)), dependencyResults);
+                            return new CvRecursivePackageData<>(commonRepoAccessor.v, cb.runBuild(new BuildData(commonRepoAccessor, dependencyResults)), dependencyResults);
                         }
                     };
 

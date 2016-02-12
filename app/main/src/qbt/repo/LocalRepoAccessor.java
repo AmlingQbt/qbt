@@ -62,7 +62,7 @@ public class LocalRepoAccessor implements CommonRepoAccessor {
         return true;
     }
 
-    private final ArrayTreeLock<String> inUse = new ArrayTreeLock<String>();
+    private final ArrayTreeLock<String> inUse = new ArrayTreeLock<>();
 
     private void lock(String prefix) {
         LOGGER.debug("Local repo locking " + dir.resolve(prefix));

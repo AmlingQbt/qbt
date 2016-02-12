@@ -66,10 +66,10 @@ public final class BuildPlumbing extends QbtCommand<BuildPlumbing.Options> {
 
     public static interface BuildCommonOptions {
         public static final OptionsLibrary<BuildCommonOptions> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<BuildCommonOptions> config = new ConfigOptionsDelegate<BuildCommonOptions>();
-        public static final ManifestOptionsDelegate<BuildCommonOptions> manifest = new ManifestOptionsDelegate<BuildCommonOptions>();
-        public static final CumulativeVersionComputerOptionsDelegate<BuildCommonOptions> cumulativeVersionComputerOptions = new CumulativeVersionComputerOptionsDelegate<BuildCommonOptions>();
-        public static final PackageMapperHelperOptionsDelegate<BuildCommonOptions> packageMapperHelperOptions = new PackageMapperHelperOptionsDelegate<BuildCommonOptions>();
+        public static final ConfigOptionsDelegate<BuildCommonOptions> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<BuildCommonOptions> manifest = new ManifestOptionsDelegate<>();
+        public static final CumulativeVersionComputerOptionsDelegate<BuildCommonOptions> cumulativeVersionComputerOptions = new CumulativeVersionComputerOptionsDelegate<>();
+        public static final PackageMapperHelperOptionsDelegate<BuildCommonOptions> packageMapperHelperOptions = new PackageMapperHelperOptionsDelegate<>();
         public static final OptionsFragment<BuildCommonOptions, Boolean> shellOnError = o.zeroArg("shellOnError").transform(o.flag()).helpDesc("Run a shell on failed builds");
         public static final OptionsFragment<BuildCommonOptions, ImmutableList<String>> outputs = o.oneArg("output").helpDesc("Output specifications");
         public static final OptionsFragment<BuildCommonOptions, String> reports = o.oneArg("reports").transform(o.singleton(null)).helpDesc("Directory into which to dump reports");
@@ -82,7 +82,7 @@ public final class BuildPlumbing extends QbtCommand<BuildPlumbing.Options> {
 
     @QbtCommandName("buildPlumbing")
     public static interface Options extends BuildCommonOptions, QbtCommandOptions {
-        public static final PackageActionOptionsDelegate<Options> packages = new PackageActionOptionsDelegate<Options>(PackageActionOptionsDelegate.NoArgsBehaviour.EMPTY);
+        public static final PackageActionOptionsDelegate<Options> packages = new PackageActionOptionsDelegate<>(PackageActionOptionsDelegate.NoArgsBehaviour.EMPTY);
     }
 
     @Override
@@ -230,7 +230,7 @@ public final class BuildPlumbing extends QbtCommand<BuildPlumbing.Options> {
                         }
                         ArtifactReference artifactReference = artifactResult.getCommute();
                         runPublish(PublishTime.all, null, v, artifactReference);
-                        return new CvRecursivePackageData<ArtifactReference>(commonRepoAccessor.v, artifactReference, dependencyResults);
+                        return new CvRecursivePackageData<>(commonRepoAccessor.v, artifactReference, dependencyResults);
                     }
                 };
                 final DependencyComputer dc = new DependencyComputer(manifest);

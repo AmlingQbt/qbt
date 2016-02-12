@@ -11,7 +11,7 @@ import qbt.options.RepoActionOptionsDelegate;
 public final class UpdateOverridesPorcelain extends QbtCommand<UpdateOverridesPorcelain.Options> {
     @QbtCommandName("updateOverrides")
     public static interface Options extends UpdateOverridesPlumbing.UpdateOverridesCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.OVERRIDES);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.OVERRIDES);
     }
 
     @Override

@@ -63,7 +63,7 @@ public class QbtManifestVersions {
         final List<String> linesFinal = lines;
         return new Object() {
             public <M, B> LegacyQbtManifest<M, B> run(QbtManifestVersion<M, B> version) {
-                return new LegacyQbtManifest<M, B>(version, version.parser().parse(linesFinal));
+                return new LegacyQbtManifest<>(version, version.parser().parse(linesFinal));
             }
         }.run(version);
     }
@@ -73,6 +73,6 @@ public class QbtManifestVersions {
     }
 
     public static LegacyQbtManifest<?, ?> toLegacy(QbtManifest manifest) {
-        return new LegacyQbtManifest<QbtManifest, QbtManifest.Builder>(V3, manifest);
+        return new LegacyQbtManifest<>(V3, manifest);
     }
 }

@@ -40,16 +40,16 @@ public final class MergeManifests extends QbtCommand<MergeManifests.Options> {
     @QbtCommandName("mergeManifests")
     public static interface Options extends QbtCommandOptions {
         public static final OptionsLibrary<Options> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
+        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<>();
         public static final OptionsFragment<Options, String> lhsName = o.oneArg("lhsName").transform(o.singleton("LHS")).helpDesc("Name of \"left\" side (for conflict markers)");
         public static final OptionsFragment<Options, String> mhsName = o.oneArg("mhsName").transform(o.singleton("MHS")).helpDesc("Name of \"middle\" side (for conflict markers)");
         public static final OptionsFragment<Options, String> rhsName = o.oneArg("rhsName").transform(o.singleton("RHS")).helpDesc("Name of \"right\" side (for conflict markers)");
-        public static final ManifestOptionsDelegate<Options> lhs = new ManifestOptionsDelegate<Options>("lhs");
-        public static final ManifestOptionsDelegate<Options> mhs = new ManifestOptionsDelegate<Options>("mhs");
-        public static final ManifestOptionsDelegate<Options> rhs = new ManifestOptionsDelegate<Options>("rhs");
-        public static final ManifestOptionsDelegate<Options> out = new ManifestOptionsDelegate<Options>("out");
+        public static final ManifestOptionsDelegate<Options> lhs = new ManifestOptionsDelegate<>("lhs");
+        public static final ManifestOptionsDelegate<Options> mhs = new ManifestOptionsDelegate<>("mhs");
+        public static final ManifestOptionsDelegate<Options> rhs = new ManifestOptionsDelegate<>("rhs");
+        public static final ManifestOptionsDelegate<Options> out = new ManifestOptionsDelegate<>("out");
         public static final OptionsFragment<Options, StrategyEnum> strategy = o.oneArg("strategy").transform(o.singleton(null)).transform(o.parseEnum(StrategyEnum.class)).helpDesc("\"Strategy\" for satellites");
-        public static final ShellActionOptionsDelegate<Options> shellAction = new ShellActionOptionsDelegate<Options>();
+        public static final ShellActionOptionsDelegate<Options> shellAction = new ShellActionOptionsDelegate<>();
     }
 
     @Override

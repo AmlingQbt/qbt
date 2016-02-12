@@ -197,5 +197,5 @@ public final class JsonSerializers {
         }
     }
 
-    public static final JsonSerializer<ImmutableMap<String, Maybe<String>>> QBT_ENV = new MapSerializer<Maybe<String>>(MAYBE_STRING);
+    public static final JsonSerializer<ImmutableMap<String, Maybe<String>>> QBT_ENV = new MapSerializer<>(MAYBE_STRING);
 }

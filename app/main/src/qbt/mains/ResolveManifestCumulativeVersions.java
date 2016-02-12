@@ -23,10 +23,10 @@ import qbt.tip.PackageTip;
 public class ResolveManifestCumulativeVersions extends QbtCommand<ResolveManifestCumulativeVersions.Options> {
     @QbtCommandName("resolveManifestCumulativeVersions")
     public static interface Options extends QbtCommandOptions {
-        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<Options>();
-        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<Options>();
-        public static final CumulativeVersionComputerOptionsDelegate<Options> cumulativeVersionComputerOptions = new CumulativeVersionComputerOptionsDelegate<Options>();
-        public static final PackageActionOptionsDelegate<Options> packages = new PackageActionOptionsDelegate<Options>(PackageActionOptionsDelegate.NoArgsBehaviour.EMPTY);
+        public static final ConfigOptionsDelegate<Options> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<Options> manifest = new ManifestOptionsDelegate<>();
+        public static final CumulativeVersionComputerOptionsDelegate<Options> cumulativeVersionComputerOptions = new CumulativeVersionComputerOptionsDelegate<>();
+        public static final PackageActionOptionsDelegate<Options> packages = new PackageActionOptionsDelegate<>(PackageActionOptionsDelegate.NoArgsBehaviour.EMPTY);
     }
 
     @Override

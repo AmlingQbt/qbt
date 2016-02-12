@@ -31,8 +31,8 @@ public final class UpdateManifestPlumbing extends QbtCommand<UpdateManifestPlumb
 
     public static interface UpdateManifestCommonOptions {
         public static final OptionsLibrary<UpdateManifestCommonOptions> o = OptionsLibrary.of();
-        public static final ConfigOptionsDelegate<UpdateManifestCommonOptions> config = new ConfigOptionsDelegate<UpdateManifestCommonOptions>();
-        public static final ManifestOptionsDelegate<UpdateManifestCommonOptions> manifest = new ManifestOptionsDelegate<UpdateManifestCommonOptions>();
+        public static final ConfigOptionsDelegate<UpdateManifestCommonOptions> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<UpdateManifestCommonOptions> manifest = new ManifestOptionsDelegate<>();
         public static final OptionsFragment<UpdateManifestCommonOptions, Boolean> upgrade = o.zeroArg("upgrade").transform(o.flag()).helpDesc("Upgrade the manifest");
         public static final OptionsFragment<UpdateManifestCommonOptions, Boolean> allowNonFf = o.zeroArg("allow-non-ff").transform(o.flag()).helpDesc("Update even if the update is not fast-forward.");
         public static final OptionsFragment<UpdateManifestCommonOptions, Boolean> allowDirty = o.zeroArg("allow-dirty").transform(o.flag()).helpDesc("Update even if a repo is dirty");
@@ -40,7 +40,7 @@ public final class UpdateManifestPlumbing extends QbtCommand<UpdateManifestPlumb
 
     @QbtCommandName("updateManifestPlumbing")
     public static interface Options extends UpdateManifestCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
     }
 
     @Override

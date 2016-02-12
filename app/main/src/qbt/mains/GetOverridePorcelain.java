@@ -10,7 +10,7 @@ import qbt.options.RepoActionOptionsDelegate;
 public final class GetOverridePorcelain extends QbtCommand<GetOverridePorcelain.Options> {
     @QbtCommandName("getOverride")
     public static interface Options extends GetOverridePlumbing.GetOverrideCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.THROW);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.THROW);
     }
 
     @Override

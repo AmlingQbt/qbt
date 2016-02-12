@@ -19,7 +19,7 @@ public abstract class CvRecursivePackageDataTransformer<V1, V2> extends Recursiv
     @Override
     protected CvRecursivePackageData<V2> transformResult(CvRecursivePackageData<V1> r, Map<String, Pair<NormalDependencyType, CvRecursivePackageData<V2>>> dependencyResults) {
         CumulativeVersion v = CumulativeVersion.of(transformNodeData(r.v.result), Maps.transformValues(dependencyResults, getDependencyVersion));
-        return new CvRecursivePackageData<V2>(v, transformResult(r.v, v, r.result.getRight(), dependencyResults), dependencyResults);
+        return new CvRecursivePackageData<>(v, transformResult(r.v, v, r.result.getRight(), dependencyResults), dependencyResults);
     }
 
     protected CumulativeVersionNodeData transformNodeData(CumulativeVersionNodeData nodeData) {

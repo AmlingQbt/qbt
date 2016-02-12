@@ -16,7 +16,7 @@ public abstract class CvRecursivePackageDataVersionAdder<V, R extends RecursiveP
     @Override
     protected CvRecursivePackageData<V> transformResult(R r, Map<String, Pair<NormalDependencyType, CvRecursivePackageData<V>>> dependencyResults) {
         CumulativeVersion v = CumulativeVersion.of(nodeData(r.result), Maps.transformValues(dependencyResults, simplify));
-        return new CvRecursivePackageData<V>(v, r.result, dependencyResults);
+        return new CvRecursivePackageData<>(v, r.result, dependencyResults);
     }
 
     protected abstract CumulativeVersionNodeData nodeData(V result);

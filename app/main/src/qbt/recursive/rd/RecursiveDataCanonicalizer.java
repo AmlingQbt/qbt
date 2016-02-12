@@ -43,7 +43,7 @@ public abstract class RecursiveDataCanonicalizer<NODE_VALUE, EDGE_KEY, EDGE_VALU
 
     @Override
     protected R transformResult(final R r, final Map<EDGE_KEY, Pair<EDGE_VALUE, R>> children) {
-        CacheKey<EDGE_KEY, EDGE_VALUE, R, K> key = new CacheKey<EDGE_KEY, EDGE_VALUE, R, K>(key(r), children);
+        CacheKey<EDGE_KEY, EDGE_VALUE, R, K> key = new CacheKey<>(key(r), children);
         try {
             return cache.get(key, () -> newR(r.result, children));
         }

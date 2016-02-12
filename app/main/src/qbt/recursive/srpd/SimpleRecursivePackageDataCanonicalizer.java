@@ -8,6 +8,6 @@ import qbt.recursive.rpd.RecursivePackageDataCanonicalizer;
 public abstract class SimpleRecursivePackageDataCanonicalizer<V, K> extends RecursivePackageDataCanonicalizer<V, SimpleRecursivePackageData<V>, K> {
     @Override
     protected SimpleRecursivePackageData<V> newR(V result, Map<String, Pair<NormalDependencyType, SimpleRecursivePackageData<V>>> dependencyResults) {
-        return new SimpleRecursivePackageData<V>(result, dependencyResults);
+        return new SimpleRecursivePackageData<>(result, dependencyResults);
     }
 }

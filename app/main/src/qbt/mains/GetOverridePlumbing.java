@@ -25,13 +25,13 @@ public final class GetOverridePlumbing extends QbtCommand<GetOverridePlumbing.Op
     private static final Logger LOGGER = LoggerFactory.getLogger(GetOverridePlumbing.class);
 
     public static interface GetOverrideCommonOptions {
-        public static final ConfigOptionsDelegate<GetOverrideCommonOptions> config = new ConfigOptionsDelegate<GetOverrideCommonOptions>();
-        public static final ManifestOptionsDelegate<GetOverrideCommonOptions> manifest = new ManifestOptionsDelegate<GetOverrideCommonOptions>();
+        public static final ConfigOptionsDelegate<GetOverrideCommonOptions> config = new ConfigOptionsDelegate<>();
+        public static final ManifestOptionsDelegate<GetOverrideCommonOptions> manifest = new ManifestOptionsDelegate<>();
     }
 
     @QbtCommandName("getOverridePlumbing")
     public static interface Options extends GetOverrideCommonOptions, QbtCommandOptions {
-        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<Options>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
+        public static final RepoActionOptionsDelegate<Options> repos = new RepoActionOptionsDelegate<>(RepoActionOptionsDelegate.NoArgsBehaviour.EMPTY);
     }
 
     @Override
