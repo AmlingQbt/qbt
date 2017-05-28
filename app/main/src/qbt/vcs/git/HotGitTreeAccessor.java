@@ -27,7 +27,7 @@ public class HotGitTreeAccessor implements TreeAccessor {
 
     private volatile VcsTreeDigest digest = null;
 
-    private HotGitTreeAccessor(Path dir, ImmutableSalvagingMap<String, Either<TreeAccessor, Pair<String, HashCode>>> map) {
+    HotGitTreeAccessor(Path dir, ImmutableSalvagingMap<String, Either<TreeAccessor, Pair<String, HashCode>>> map) {
         this.dir = dir;
         this.map = map;
     }
