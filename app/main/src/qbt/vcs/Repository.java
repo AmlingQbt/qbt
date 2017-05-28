@@ -49,4 +49,5 @@ public interface Repository {
 
     // operations on a tree in this repo
     public TreeAccessor getTreeAccessor(VcsTreeDigest tree);
+    public TreeAccessor getEmptyTreeAccessor();
 }

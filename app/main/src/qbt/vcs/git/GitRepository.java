@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import misc1.commons.ds.ImmutableSalvagingMap;
 import qbt.VcsTreeDigest;
 import qbt.VcsVersionDigest;
 import qbt.vcs.CommitData;
@@ -152,5 +153,10 @@ public class GitRepository implements Repository {
     @Override
     public void setIndexTree(VcsTreeDigest tree) {
         GitUtils.setIndexTree(repositoryPath, tree);
+    }
+
+    @Override
+    public TreeAccessor getEmptyTreeAccessor() {
+        return new HotGitTreeAccessor(repositoryPath, ImmutableSalvagingMap.of());
     }
 }
