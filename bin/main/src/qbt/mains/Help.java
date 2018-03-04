@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Map;
 import misc1.commons.options.OptionsFragment;
@@ -17,6 +18,7 @@ import qbt.QbtCommandName;
 import qbt.QbtCommandOptions;
 import qbt.QbtCommands;
 import qbt.QbtMain;
+import qbt.QbtUtils;
 
 public class Help extends QbtCommand<Help.Options> {
     private static final Logger LOGGER = LoggerFactory.getLogger(Help.class);
@@ -67,6 +69,12 @@ public class Help extends QbtCommand<Help.Options> {
         }
 
         boolean verbose = options.get(Options.allTiers);
+
+        String qbtWrapperBase = System.getenv("QBT_WRAPPER_BASE");
+        if(qbtWrapperBase != null) {
+            String v = QbtUtils.readLines(Paths.get(qbtWrapperBase).resolve("qbt.versionTree")).get(0);
+            LOGGER.info("This is " + v);
+        }
 
         for(Map.Entry<HelpTier, Map<String, Optional<String>>> e : sortedCommands.entrySet()) {
             HelpTier helpTier = e.getKey();
